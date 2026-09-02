@@ -1,0 +1,25 @@
+/**
+ * ЗАПЕЧЁННЫЕ ИЗМЕНЕНИЯ САЙТА
+ * -------------------------------------------------------------
+ * Этот файл обновлён из панели редактора.
+ * Все ключи ниже — правки пользователя, видные всем посетителям.
+ * localStorage имеет приоритет над этим файлом.
+ */
+
+export const BAKED_OVERRIDES: Record<string, string> = {
+  "brand.logo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAKTApMDASIAAhEBAxEB/8QAHwEAAgMBAQADAQAAAAAAAQIFBgcBAgAHCAkEAwABAgMEAAEDBQIFBggDAgMAAQIDAAEFCAYHEQQFCBIxExMRAyFBUQkWIjIxUWQGRyIjNScoKShBgcIEFBwXEBwaGxwSFCYxESw/JDcmJyo8EVNVJjJERQ4QISAAAQEAAgABAAEBCwgMBgAAAwECAwAABQYBBwAABgMCAwUEBQMFEBcSFAcHBgcMBAkOCh4eEhEIBgQUDxoeFRgABBIJDw9ADQ0TDQcKEgMEAwkHBAcBAgIFBQQEDgkDBQcGBgQDAgYGCA4TDAIBAgkLBQwIDw0OBwkKDgkLBgQMAwQFBAkHCwoJBAYHBwwFCQQICwMDAQEBAQICAgECAwMEBQMFBgMEBQQCAQEDAgECAgECAwQEAgIFAgIBAQECAQEBAgQDBAkHBgcHBgUDBQQFAgECAgMCCAgIBgQDBQEDBgUEBAIBAgECCAYDAAEBAwECAgIEAQIDBAUDBQYDBAIBAgICAgMBAQICAgICAgEBAQICAgICAgMCAgICAgICAgMCAgICAgICAgMCAgICAgICAgICAgQIBAgECAgMDAwMDAwIDBQIEBAMGBQMEBAIBBAgNCgsIDg0NBwkHBgEKBgQDAgIFAgICBAUGAwIDBQwBCQ4BBAUHBgQBBgICCgsHCwcIBgIBAQABAgMBAAEAAwIEBAECAgECAwEBAgIBAAECAwEBAgMBAAIEBQoFDAsNDA0MCwoLCgsK",
+  "whyus.adv1.title": "Снеговая нагрузка 250 кг/м²",
+  "whyus.adv1.desc": "Толстостенный профиль по ГОСТу (стойки 80×80, 100×100, 120×120 мм с толщиной стенки от 3 до 6 мм). Конструкция не прогнется даже в рекордные снегопады.",
+  "steps.5.desc": "Вы принимаете работу, подписываете акт выполненных работ, получаете гарантию на 24 месяца и производите расчет.",
+  "steps.4.desc": "Изготавливаем конструкцию на производстве в Домодедово за 14 дней. Приезжаем на участок и монтируем за 1–2 дня без мусора.",
+  "whyus.facility.row3.value": "до 50 навесов",
+  "whyus.facility.row4.value": "3 штатных звеньев",
+  "consult.card3": "Договор и фиксация цены",
+  "faq.0.a": "Выезд замерщика стоит 3 000 ₽. При заключении договора эта сумма вычитается из стоимости заказа, поэтому фактически замер для вас бесплатный. Инженер приезжает с лазерным дальномером, каталогом цветов RAL и образцами поликарбоната, производит точные замеры и сделает смету.",
+  "calc.approx_note": "Это ориентировочный расчёт, за точным расчётом обращайтесь по заявке. Инженер сделает детальный расчёт сметы и проект под ваш участок.",
+  "calc.subtitle": "Выберите параметры конструкции ниже. Расчет основан на производственном прайс-листе металлопроката и комплектующих. Зафиксируйте цену и получите смету!",
+  "whyus.h1.part1": "Почему более 1000 заказчиков",
+  "consult.subtitle": "Выезд замерщика стоит 3 000 ₽, но при заключении договора эта сумма вычитается из стоимости заказа — фактически замер для вас бесплатный. Инженер приедет с каталогом материалов, произведёт точные замеры и подготовит смету.",
+};
+
+export const BAKED_CUSTOM_ITEMS: unknown[] = [];
