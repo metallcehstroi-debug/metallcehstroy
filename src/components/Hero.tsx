@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({
   const heroLayout = getText('hero.layout', 'card');
 
   return (
-    <section className={`relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 ${heroLayout === 'wide' ? 'pt-8 pb-10 lg:min-h-[690px] lg:pt-12 lg:pb-12' : 'border-b border-slate-200 pt-8 pb-16 lg:pt-14 lg:pb-20'}`}>
+    <section className={`relative overflow-hidden ${heroLayout === 'wide' ? 'bg-white pt-8 pb-10 lg:-mb-px lg:min-h-[690px] lg:pt-12 lg:pb-12' : 'border-b border-slate-200 bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-8 pb-16 lg:pt-14 lg:pb-20'}`}>
       
       {/* Background soft ambient orbs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -286,7 +286,7 @@ export const Hero: React.FC<HeroProps> = ({
                   style={{ backgroundImage: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.99) 10%, rgba(255,255,255,0.94) 22%, rgba(255,255,255,0.72) 38%, rgba(255,255,255,0.34) 53%, rgba(255,255,255,0.08) 67%, rgba(255,255,255,0) 78%)' }}
                 />
 
-                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[12%] lg:top-10">
+                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[24%] lg:top-10">
                   <span className="rounded-lg bg-orange-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
                     <Sparkles className="mr-1 inline h-3.5 w-3.5" />
                     <EditableText id="hero.wide.badge">Реальный сданный объект</EditableText>
