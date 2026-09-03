@@ -6,6 +6,8 @@
  * localStorage имеет приоритет над этим файлом.
  */
 
+export const BAKED_VERSION = '12.3';
+
 export const BAKED_OVERRIDES: Record<string, string> = {
   "brand.logo": "/logo.webp",
   "brand.maxicon": "/max-logo.webp",

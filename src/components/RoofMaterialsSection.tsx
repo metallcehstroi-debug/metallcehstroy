@@ -37,14 +37,14 @@ export const RoofMaterialsSection: React.FC<RoofMaterialsProps> = ({ onOpenOrder
               className="white-card rounded-3xl overflow-hidden flex flex-col justify-between group"
             >
               {/* Material Image */}
-              <div className="relative aspect-16/10 bg-slate-100 overflow-hidden">
+              <div className="relative aspect-16/10 bg-slate-800 overflow-hidden isolate">
                 <EditableImage
                   id={`roof.${mat.id}.image`}
                   src={mat.image}
                   alt={mat.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-center scale-[1.12] group-hover:scale-[1.18] saturate-[1.08] contrast-[1.05] transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-900/5 to-white/5 pointer-events-none" />
 
                 <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-xs text-orange-700 text-xs font-bold px-2.5 py-1 rounded-lg shadow-xs">
                   <EditableText id={`roof.${mat.id}.price`}>{mat.priceAdd}</EditableText>

@@ -350,7 +350,7 @@ export const EditorLauncher: React.FC = () => {
                   </>
                 )}
                 <br />
-                Правки остаются после обновления страницы.
+                Черновик остаётся в этом браузере. Для остальных браузеров опубликуйте ZIP ниже.
               </span>
             </div>
 
@@ -370,7 +370,7 @@ export const EditorLauncher: React.FC = () => {
               <Phone className="w-3.5 h-3.5" /> Редактор контактов и реквизитов
             </button>
 
-            {/* Зафиксировать правки в коде */}
+            {/* Дополнительный вариант для разработчика */}
             <button
               onClick={async () => {
                 if (!hasOverrides) {
@@ -386,10 +386,10 @@ export const EditorLauncher: React.FC = () => {
               }}
               disabled={baking}
               className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-[11px] transition-colors"
-              title="Получить короткий код со всеми правками"
+              title="Дополнительный файл для ручной замены разработчиком"
             >
               <Check className="w-3.5 h-3.5" />
-              {baking ? 'Готовлю код...' : 'Зафиксировать правки в коде'}
+              {baking ? 'Готовлю файл...' : 'Скачать только файл правок (.ts)'}
             </button>
 
             {/* Скачать все файлы проекта */}

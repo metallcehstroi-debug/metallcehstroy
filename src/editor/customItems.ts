@@ -52,6 +52,15 @@ export function saveCustomItems(items: CustomPortfolioItem[]) {
   window.dispatchEvent(new Event(EVENT));
 }
 
+/** Убирает черновики старой сборки после публикации новой версии сайта. */
+export function clearLocalCustomItemsCache() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 export function addCustomItem(item: Omit<CustomPortfolioItem, 'id'>) {
   const items = loadCustomItems();
   const newItem: CustomPortfolioItem = {

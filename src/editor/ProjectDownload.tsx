@@ -46,7 +46,7 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
         import: 'default',
         eager: true,
       }) as Record<string, string>;
-      const eagerRoot = import.meta.glob('/*.{json,ts,html,md}', {
+      const eagerRoot = import.meta.glob('/*.{json,ts,html,md,yaml,yml}', {
         query: '?raw',
         import: 'default',
         eager: true,
@@ -105,7 +105,7 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
       URL.revokeObjectURL(url);
 
       setDone(true);
-      notify(`Архив скачан: ${unique.length} файлов`);
+      notify(`Архив для публикации готов: ${unique.length} файлов`);
       setTimeout(() => setDone(false), 3000);
     } catch {
       notify('Не удалось собрать архив');
@@ -118,8 +118,8 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
     <button
       onClick={handleDownload}
       disabled={busy}
-      title="Скачать исходники сайта одним архивом"
-      className="w-full inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-bold py-2.5 rounded-xl text-[11px] transition-colors"
+      title="Скачать сайт с текущими правками для загрузки в GitHub"
+      className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-bold py-3 rounded-xl text-[11px] transition-colors shadow-sm"
     >
       {busy ? (
         <>
@@ -127,11 +127,11 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
         </>
       ) : done ? (
         <>
-          <Check className="w-3.5 h-3.5" /> Архив скачан
+          <Check className="w-3.5 h-3.5" /> Архив для публикации скачан
         </>
       ) : (
         <>
-          <Package className="w-3.5 h-3.5" /> Скачать все файлы сайта (ZIP)
+          <Package className="w-3.5 h-3.5" /> Скачать архив для публикации
           <Download className="w-3 h-3 opacity-70" />
         </>
       )}

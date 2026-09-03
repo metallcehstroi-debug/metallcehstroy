@@ -8,13 +8,14 @@ import React, {
   ReactNode,
 } from 'react';
 
-import { BAKED_OVERRIDES } from '../data/bakedOverrides';
-import { loadCustomItems } from './customItems';
+import { BAKED_OVERRIDES, BAKED_VERSION } from '../data/bakedOverrides';
+import { clearLocalCustomItemsCache, loadCustomItems } from './customItems';
 import { compressDataUrl, isHugeDataUrl } from './imageCompress';
 
 const STORAGE_KEY = 'mcs_site_content_overrides_v1';
 const AUTH_KEY = 'mcs_editor_authed_v1';
 const ASSET_MIGRATION_KEY = 'mcs_asset_migration_v12';
+const PUBLISHED_VERSION_KEY = 'mcs_published_content_version';
 const EDITOR_PASSWORD = 'admin'; // Пароль для входа в редактор
 
 /** Собирает сниппет кода для запекания правок в сборку (src/data/bakedOverrides.ts).
@@ -50,7 +51,8 @@ async function buildBakeSnippet(overrides: Record<string, string>): Promise<stri
     .map((l, i) => (i === 0 ? l : '  ' + l))
     .join('\n');
 
-  return `export const BAKED_OVERRIDES: Record<string, string> = {\n${entries}\n};\n\nexport const BAKED_CUSTOM_ITEMS: unknown[] = ${items};`;
+  const publishedVersion = `published-${Date.now()}`;
+  return `export const BAKED_VERSION = ${safe(publishedVersion)};\n\nexport const BAKED_OVERRIDES: Record<string, string> = {\n${entries}\n};\n\nexport const BAKED_CUSTOM_ITEMS: unknown[] = ${items};`;
 }
 
 export interface HistoryState {
@@ -118,6 +120,20 @@ function loadOverrides(): Record<string, string> {
   let local = safeParse(localStorage.getItem(STORAGE_KEY));
   // Если основное хранилище повреждено — восстанавливаемся из резервной копии
   if (!local) local = safeParse(localStorage.getItem(BACKUP_KEY));
+
+  // Архив, созданный кнопкой публикации, получает уникальную версию. После его
+  // загрузки в GitHub старые локальные данные очищаются во всех браузерах и уже
+  // не могут перекрывать опубликованную картинку или текст. Обычная базовая
+  // сборка (например, 12.3) черновик владельца не удаляет.
+  if (localStorage.getItem(PUBLISHED_VERSION_KEY) !== BAKED_VERSION) {
+    if (BAKED_VERSION.startsWith('published-')) {
+      local = null;
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(BACKUP_KEY);
+      clearLocalCustomItemsCache();
+    }
+    localStorage.setItem(PUBLISHED_VERSION_KEY, BAKED_VERSION);
+  }
 
   // В одной из ранних сборок логотип сохранился как обрезанный data URL.
   // Такой файл не декодируется и перекрывает исправный логотип из сборки.
