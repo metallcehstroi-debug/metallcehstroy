@@ -31,6 +31,7 @@ export const Hero: React.FC<HeroProps> = ({
   const reviewId = getText('hero.review.id', 'rev-2');
   const review = REAL_REVIEWS.find((r) => r.id === reviewId) ?? REAL_REVIEWS[0];
   const setReviewId = (id: string) => setValue('hero.review.id', id);
+  const heroLayout = getText('hero.layout', 'card');
 
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-20 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-b border-slate-200">
@@ -40,6 +41,25 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-amber-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-[1680px] mx-auto px-4 sm:px-6 2xl:px-10">
+        {editMode && (
+          <div className="relative z-30 mb-5 mx-auto w-fit flex items-center gap-1.5 rounded-2xl border border-orange-200 bg-white/95 p-1.5 shadow-lg backdrop-blur-sm">
+            <span className="px-2 text-[11px] font-bold text-slate-600">Вид верхнего блока:</span>
+            <button
+              type="button"
+              onClick={() => setValue('hero.layout', 'card')}
+              className={`rounded-xl px-3 py-2 text-[11px] font-bold transition-colors ${heroLayout === 'card' ? 'bg-orange-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            >
+              Карточка
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue('hero.layout', 'wide')}
+              className={`rounded-xl px-3 py-2 text-[11px] font-bold transition-colors ${heroLayout === 'wide' ? 'bg-orange-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            >
+              Широкое фото
+            </button>
+          </div>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* Left Column: Headline and Selling points */}
@@ -129,7 +149,8 @@ export const Hero: React.FC<HeroProps> = ({
 
           </div>
 
-          {/* Right Column: Hero Visual Card with Real Work Photo */}
+          {/* Вариант 1: существующая карточка */}
+          {heroLayout === 'card' ? (
           <div className="lg:col-span-5 relative">
             <div className="bg-white border border-slate-200 rounded-3xl p-4 shadow-xl hover:shadow-2xl transition-shadow relative">
               
@@ -248,6 +269,66 @@ export const Hero: React.FC<HeroProps> = ({
 
             </div>
           </div>
+          ) : (
+            /* Вариант 2: широкое фото с отзывом поверх */
+            <div className="lg:col-span-5 relative lg:self-stretch min-h-[430px] sm:min-h-[520px] lg:min-h-[640px]">
+              <div className="absolute inset-0 overflow-hidden rounded-3xl lg:rounded-l-[2.5rem] lg:rounded-r-none bg-slate-900 shadow-2xl group">
+                <EditableImage
+                  id="hero.wide.image"
+                  src="https://xn--80ajbqiadvrjgf1bm.xn--p1ai/wp-content/uploads/freshizer/2296076d27b2cfba8a1c9d4fb5d32c68_f51777c2-0a13-48c9-9154-8f82a0a7071d-780-780-c-100.jpg"
+                  alt="Готовый объект МеталлЦехСтрой"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/10 lg:bg-gradient-to-r lg:from-white/35 lg:via-transparent lg:to-slate-950/10" />
+
+                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6">
+                  <span className="rounded-lg bg-orange-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
+                    <Sparkles className="mr-1 inline h-3.5 w-3.5" />
+                    <EditableText id="hero.wide.badge">Реальный сданный объект</EditableText>
+                  </span>
+                  <span className="rounded-lg bg-white/90 px-3 py-1.5 text-[11px] font-semibold text-slate-800 backdrop-blur-sm">
+                    <EditableText id="hero.wide.location">МО, Истринский район</EditableText>
+                  </span>
+                </div>
+              </div>
+
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[-2rem] lg:right-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white shadow-md sm:h-14 sm:w-14 sm:text-base">
+                    <EditableText id="hero.wide.review.initials">ИА</EditableText>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                      <EditableText as="h3" id="hero.wide.review.author" className="block text-xs font-extrabold text-slate-900 sm:text-sm">
+                        Ирина · отзыв об объекте 8 × 10 м
+                      </EditableText>
+                      <div className="flex shrink-0 text-amber-500">
+                        {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
+                      </div>
+                    </div>
+                    <EditableText
+                      as="p"
+                      id="hero.wide.review.text"
+                      multiline
+                      className="mt-2 block text-[11px] italic leading-relaxed text-slate-600 sm:text-sm"
+                    >
+                      «Валерий подготовил чёткий проект, цена совпала с итоговой копейка в копейку! Бригада установила навес идеально ровно и быстро!»
+                    </EditableText>
+                  </div>
+                </div>
+                <div className="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <Award className="h-4 w-4 text-orange-600" />
+                    Контроль директора: <strong className="text-slate-800">{COMPANY_INFO.director}</strong>
+                  </span>
+                  <button onClick={onNavigateToCatalog} className="self-start font-bold text-orange-600 hover:text-orange-700 sm:self-auto">
+                    Все модели →
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
 
