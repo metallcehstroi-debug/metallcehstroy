@@ -271,8 +271,8 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
           ) : (
             /* Вариант 2: широкое фото с отзывом поверх */
-            <div className="lg:col-span-5 relative min-h-[470px] sm:min-h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[63%] lg:min-h-0">
-              <div className="absolute inset-0 overflow-hidden rounded-3xl bg-slate-900 shadow-2xl group lg:rounded-none lg:shadow-none">
+            <div className="lg:col-span-5 relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-[63%] lg:min-h-0">
+              <div className="relative h-[380px] overflow-hidden rounded-3xl bg-slate-900 shadow-2xl group sm:h-[480px] lg:absolute lg:inset-0 lg:h-auto lg:rounded-none lg:shadow-none">
                 <EditableImage
                   id="hero.wide.image"
                   src="https://xn--80ajbqiadvrjgf1bm.xn--p1ai/wp-content/uploads/freshizer/2296076d27b2cfba8a1c9d4fb5d32c68_f51777c2-0a13-48c9-9154-8f82a0a7071d-780-780-c-100.jpg"
@@ -286,7 +286,7 @@ export const Hero: React.FC<HeroProps> = ({
                   style={{ backgroundImage: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.99) 10%, rgba(255,255,255,0.94) 22%, rgba(255,255,255,0.72) 38%, rgba(255,255,255,0.34) 53%, rgba(255,255,255,0.08) 67%, rgba(255,255,255,0) 78%)' }}
                 />
 
-                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[24%] lg:top-10">
+                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[32%] lg:top-10">
                   <span className="rounded-lg bg-orange-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
                     <Sparkles className="mr-1 inline h-3.5 w-3.5" />
                     <EditableText id="hero.wide.badge">Реальный сданный объект</EditableText>
@@ -297,7 +297,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
               </div>
 
-              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[28%] lg:right-[6%] lg:bottom-[9%] lg:p-6">
+              <div className="relative z-10 mx-3 -mt-10 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:mx-6 sm:-mt-14 sm:p-5 lg:absolute lg:left-[28%] lg:right-[6%] lg:bottom-[9%] lg:m-0 lg:p-6">
                 {editMode && (
                   <label className="mb-4 flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] font-bold text-slate-600">
                     <Star className="h-3.5 w-3.5 shrink-0 text-amber-600" />
@@ -332,7 +332,7 @@ export const Hero: React.FC<HeroProps> = ({
                       as="p"
                       id={`hero.wide.review.${review.id}.text`}
                       multiline
-                      className="mt-2 block text-[11px] italic leading-relaxed text-slate-600 sm:text-sm"
+                      className="mt-2 block text-[11px] italic leading-relaxed text-slate-600 line-clamp-4 sm:text-sm sm:line-clamp-none"
                     >
                       {`«${review.text}»`}
                     </EditableText>
