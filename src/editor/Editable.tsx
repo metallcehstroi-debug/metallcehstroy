@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useEditor } from './EditorContext';
 import { Pencil, Check, X, RotateCcw, ImageUp, Link2, Upload } from 'lucide-react';
+import { optimizeImageFile } from './imageCompress';
 
 /* ============================================================
    EditableText — инлайн-редактирование любого текста
@@ -168,19 +169,21 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     return <img src={current} alt={alt} className={className} loading={loading} />;
   }
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 3 * 1024 * 1024) {
-      alert('Файл слишком большой. Максимум 3 МБ (изображение хранится в браузере).');
+    if (file.size > 20 * 1024 * 1024) {
+      alert('Файл слишком большой. Максимальный исходный размер — 20 МБ.');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setValue(id, String(reader.result));
+    try {
+      const optimized = await optimizeImageFile(file);
+      setValue(id, optimized);
       setPanelOpen(false);
-    };
-    reader.readAsDataURL(file);
+      e.target.value = '';
+    } catch {
+      alert('Не удалось обработать изображение. Попробуйте другой файл.');
+    }
   };
 
   const applyUrl = () => {
@@ -195,7 +198,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     <span className="relative block w-full h-full group/img">
       <img src={current} alt={alt} className={className} loading={loading} />
 
-      {/* Оверлей */}
+      {/* Компактная кнопка не перекрывает подписи и редактируемый текст поверх фото */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -203,10 +206,10 @@ export const EditableImage: React.FC<EditableImageProps> = ({
           setUrlDraft(current.startsWith('data:') ? '' : current);
           setPanelOpen(true);
         }}
-        className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/0 group-hover/img:bg-slate-900/50 transition-colors"
+        className="absolute top-2 right-2 z-30 flex items-center justify-center rounded-lg bg-slate-950/75 hover:bg-orange-600 p-1.5 shadow-lg transition-colors"
       >
-        <span className="opacity-0 group-hover/img:opacity-100 transition-opacity inline-flex items-center gap-1.5 bg-orange-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg">
-          <ImageUp className="w-4 h-4" /> Заменить фото
+        <span className="inline-flex items-center gap-1.5 text-white text-[11px] font-bold">
+          <ImageUp className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Заменить</span>
         </span>
       </button>
 
@@ -262,7 +265,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
                 className="hidden"
               />
               <p className="text-[11px] text-slate-400 mt-1 text-center">
-                JPG, PNG, WebP · до 3 МБ · хранится в браузере
+                JPG, PNG, WebP · исходник до 20 МБ · автоматически оптимизируется до 1600 px
               </p>
             </div>
 

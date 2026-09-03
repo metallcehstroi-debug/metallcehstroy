@@ -58,7 +58,7 @@ export const COMPANY_INFO = {
   phones: [
     { display: '+7 (495) 021-24-21', raw: '+74950212421', label: 'Центральный многоканальный' },
     { display: '+7 (966) 179-63-45', raw: '+79661796345', label: 'Отдел продаж и замера' },
-    { display: '+7 (952) 312-88-73', raw: '+79523128873', label: 'Дежурный инженер (MAX)' },
+    { display: '+7 (952) 312-88-73', raw: '+79523128873', label: 'Менеджер (MAX)' },
   ],
   messengerName: 'MAX',
   maxUrl: 'https://max.ru/u/f9LHodD0cOJP7pLv_FQ77YWeI8kbMRGxYvAcbwkusC2aJI7kjh00kRS5Ezc',

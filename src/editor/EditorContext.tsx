@@ -14,6 +14,7 @@ import { compressDataUrl, isHugeDataUrl } from './imageCompress';
 
 const STORAGE_KEY = 'mcs_site_content_overrides_v1';
 const AUTH_KEY = 'mcs_editor_authed_v1';
+const ASSET_MIGRATION_KEY = 'mcs_asset_migration_v12';
 const EDITOR_PASSWORD = 'admin'; // Пароль для входа в редактор
 
 /** Собирает сниппет кода для запекания правок в сборку (src/data/bakedOverrides.ts).
@@ -123,6 +124,16 @@ function loadOverrides(): Record<string, string> {
   ) {
     local = { ...local };
     delete local['brand.logo'];
+  }
+
+  // Однократно переводим существующих посетителей на новый знак MAX.
+  // После миграции загруженная через редактор иконка снова сохраняется обычно.
+  if (localStorage.getItem(ASSET_MIGRATION_KEY) !== 'done') {
+    if (local) {
+      local = { ...local };
+      delete local['brand.maxicon'];
+    }
+    localStorage.setItem(ASSET_MIGRATION_KEY, 'done');
   }
 
   if (local) merged = { ...merged, ...local };

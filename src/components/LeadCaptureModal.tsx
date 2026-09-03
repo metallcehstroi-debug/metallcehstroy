@@ -88,7 +88,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
 
             <p className="text-sm text-slate-600 leading-relaxed">
               Спасибо, <strong>{name || 'уважаемый клиент'}</strong>! Мы зафиксировали за вами скидку <strong>2%</strong> при онлайн-заказе.
-              Дежурный инженер свяжется с вами в течение 10 минут по номеру:
+              Менеджер свяжется с вами в течение 10 минут по номеру:
             </p>
 
             <div className="text-lg font-mono font-bold text-orange-600 bg-orange-50 p-2.5 rounded-2xl border border-orange-200">

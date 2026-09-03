@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Package, Check, Loader2 } from 'lucide-react';
 import { createZip, ZipFile } from './zipWriter';
+import { useEditor } from './EditorContext';
 
 const GITIGNORE = `node_modules
 dist
@@ -23,6 +24,7 @@ interface ProjectDownloadProps {
 
 /** Кнопка скачивания всех файлов проекта одним ZIP-архивом. */
 export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }) => {
+  const { bakeToCode } = useEditor();
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -36,6 +38,11 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
       }) as Record<string, string>;
       const eagerPub = import.meta.glob('/public/**/*.{svg,txt,json,webmanifest}', {
         query: '?raw',
+        import: 'default',
+        eager: true,
+      }) as Record<string, string>;
+      const eagerPubBinary = import.meta.glob('/public/**/*.{png,jpg,jpeg,webp,gif,ico}', {
+        query: '?url',
         import: 'default',
         eager: true,
       }) as Record<string, string>;
@@ -58,6 +65,22 @@ export const ProjectDownloadButton: React.FC<ProjectDownloadProps> = ({ notify }
       };
 
       [eagerSrc, eagerPub, eagerRoot, eagerScript].forEach(add);
+
+      for (const [path, url] of Object.entries(eagerPubBinary)) {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Не удалось добавить ${path} в архив`);
+        files.push({
+          name: path.replace(/^\//, ''),
+          content: new Uint8Array(await response.arrayBuffer()),
+        });
+      }
+
+      // Сохраняем текущие правки редактора прямо в исходный код архива.
+      // Благодаря этому они остаются видны всем после следующего обновления сайта.
+      const bakedSource = await bakeToCode();
+      const bakedFile = files.find((file) => file.name === 'src/data/bakedOverrides.ts');
+      if (bakedFile) bakedFile.content = bakedSource;
+      else files.push({ name: 'src/data/bakedOverrides.ts', content: bakedSource });
 
       files.push({ name: '.gitignore', content: GITIGNORE });
       files.push({ name: '.env.example', content: ENV_EXAMPLE });

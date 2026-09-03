@@ -607,7 +607,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ onSuccessOrder }) => {
                   </div>
                   <h4 className="font-bold text-slate-900 text-base">Скидка 2% зафиксирована!</h4>
                   <p className="text-xs text-slate-600">
-                    Дежурный инженер свяжется с вами в течение 10 минут, уточнит детали и согласует удобное время бесплатного замера.
+                    Менеджер свяжется с вами в течение 10 минут, уточнит детали и согласует удобное время бесплатного замера.
                   </p>
                   <a
                     href={MAX_URL}

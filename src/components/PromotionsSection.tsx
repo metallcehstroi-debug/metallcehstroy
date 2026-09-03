@@ -92,7 +92,7 @@ export const PromotionsSection: React.FC<PromotionsSectionProps> = ({ onOpenOrde
 
         {/* Asterisk note from original site */}
         <div className="mt-8 p-4 bg-slate-900/50 rounded-xl border border-slate-800/80 text-xs text-slate-400 text-center">
-          * Внимание: скидки не суммируются между собой. Акции могут быть изменены или прекращены при исчерпании складского запаса профиля. Уточняйте подробности у дежурного инженера.
+          * Внимание: скидки не суммируются между собой. Акции могут быть изменены или прекращены при исчерпании складского запаса профиля. Уточняйте подробности у менеджера.
         </div>
 
       </div>

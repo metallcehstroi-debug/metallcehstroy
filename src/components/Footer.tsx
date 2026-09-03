@@ -322,7 +322,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenOrder }) => {
                   className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#5A5CE8] hover:bg-[#6D6EF0] text-white font-bold text-xs transition-colors shadow-sm shadow-[#5A5CE8]/25"
                 >
                   <MaxIcon className="w-4 h-4" />
-                  <span>Написать в MAX дежурному инженеру</span>
+                  <span>Написать в MAX менеджеру</span>
                 </a>
               </div>
             </div>

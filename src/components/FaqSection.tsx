@@ -70,7 +70,7 @@ export const FaqSection: React.FC = () => {
           <div>
             <h4 className="font-bold text-slate-900 text-base">Остались вопросы по вашему участку?</h4>
             <p className="text-xs text-slate-500 mt-1">
-              Напишите нашему дежурному инженеру в мессенджер MAX — ответим за 5 минут.
+              Напишите нашему менеджеру в мессенджер MAX — ответим за 5 минут.
             </p>
           </div>
           <a

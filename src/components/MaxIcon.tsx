@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useEditor } from '../editor/EditorContext';
+import { optimizeImageFile } from '../editor/imageCompress';
 
 export const MAX_URL_DEFAULT =
   'https://max.ru/u/f9LHodD0cOJP7pLv_FQ77YWeI8kbMRGxYvAcbwkusC2aJI7kjh00kRS5Ezc';
@@ -31,28 +32,33 @@ export const MAX_URL = MAX_URL_DEFAULT;
 export const MaxIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => {
   const { getImage, editMode, setValue, notify } = useEditor();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const custom = getImage('brand.maxicon', '');
+  const custom = getImage('brand.maxicon', '/max-logo.webp');
 
-  const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) {
       notify('Файл слишком большой (макс. 2 МБ)');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setValue('brand.maxicon', String(reader.result));
+    try {
+      const optimized = await optimizeImageFile(file, 512, 0.9);
+      setValue('brand.maxicon', optimized);
       notify('Иконка MAX обновлена на всех кнопках');
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      notify('Не удалось обработать иконку MAX');
+    }
     e.target.value = '';
   };
 
   return (
-    <span className="relative inline-flex shrink-0">
+    <span className={`relative inline-flex shrink-0 rounded-full ${className}`}>
       {custom ? (
-        <img src={custom} alt="MAX" className={`${className} object-cover rounded-full`} />
+        <img
+          src={custom}
+          alt="MAX"
+          className="block w-full h-full object-cover rounded-full [clip-path:circle(50%)]"
+        />
       ) : (
         <MaxLogoSvg className={className} />
       )}
@@ -101,19 +107,20 @@ export const MaxLink: React.FC<MaxLinkProps> = ({
   const { editMode, setValue, notify } = useEditor();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) {
       notify('Файл слишком большой (макс. 2 МБ)');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setValue('brand.maxicon', String(reader.result));
+    try {
+      const optimized = await optimizeImageFile(file, 512, 0.9);
+      setValue('brand.maxicon', optimized);
       notify('Иконка MAX обновлена на всех кнопках');
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      notify('Не удалось обработать иконку MAX');
+    }
     e.target.value = '';
   };
 

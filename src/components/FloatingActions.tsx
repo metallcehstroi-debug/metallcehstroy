@@ -48,20 +48,20 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ onOpenOrder, o
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Написать в MAX"
-        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#5A5CE8] hover:bg-[#4A4BD8] text-white shadow-xl shadow-[#5A5CE8]/35 transition-all hover:scale-110 active:scale-95 cursor-pointer"
+        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-visible bg-white text-white shadow-xl shadow-[#5A5CE8]/35 ring-2 ring-white transition-all hover:scale-110 active:scale-95 cursor-pointer"
       >
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7B7CF0] opacity-30" />
-        <MaxIcon className="relative w-6 h-6 sm:w-7 sm:h-7" />
+        <MaxIcon className="relative w-full h-full" />
 
         <span className="hidden sm:flex items-center gap-1.5 absolute right-full mr-3 bg-slate-900 text-white text-xs font-semibold py-2 px-3 rounded-xl whitespace-nowrap opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all shadow-lg pointer-events-none">
-          Написать в MAX инженеру
+          Написать менеджеру в MAX
           <span className="absolute left-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-l-6 border-transparent border-l-slate-900" />
         </span>
       </a>
 
       {/* Quick call */}
       <button
-        onClick={() => onOpenOrder('Быстрый заказ звонка дежурного инженера')}
+        onClick={() => onOpenOrder('Быстрый заказ звонка менеджера')}
         aria-label="Заказать звонок"
         className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-orange-600 hover:bg-orange-700 text-white shadow-xl shadow-orange-600/30 transition-all hover:scale-110 active:scale-95 cursor-pointer"
       >

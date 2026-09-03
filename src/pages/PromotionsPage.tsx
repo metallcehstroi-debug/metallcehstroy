@@ -105,7 +105,7 @@ export const PromotionsPage: React.FC<PromotionsPageProps> = ({ onOpenOrder }) =
           <ul className="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Бесплатная подробная консультация</strong> дежурного инженера и расчет стоимости в день обращения.</span>
+              <span><strong>Бесплатная подробная консультация</strong> менеджера и расчет стоимости в день обращения.</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />

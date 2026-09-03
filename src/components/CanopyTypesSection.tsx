@@ -21,7 +21,7 @@ const TYPES: {
   desc: string;
   badge?: string;
   photo: string;
-  photoCaption: string;
+  oldSitePrice: number;
 }[] = [
   {
     id: 'arch',
@@ -30,7 +30,7 @@ const TYPES: {
     desc: 'Классическая полукруглая форма. Снег и вода сходят сами, конструкция выдерживает высокие нагрузки.',
     badge: 'Хит продаж',
     photo: `${P}/2296076d27b2cfba8a1c9d4fb5d32c68_f51777c2-0a13-48c9-9154-8f82a0a7071d-270-270-c-100.jpg`,
-    photoCaption: 'Арочный навес · Истринский р-н · 27.06.2026',
+    oldSitePrice: 4750,
   },
   {
     id: 'semiarch',
@@ -38,7 +38,7 @@ const TYPES: {
     title: 'Полуарочные навесы',
     desc: 'Идеальны как пристройка к дому, гаражу или забору. Вода отводится строго в одну сторону.',
     photo: `${P}/b3088754ec64ee86f3fb0c3f95c0e68d_IMG_20260826_135928-270-270-c-100.jpg`,
-    photoCaption: 'Полуарочный навес · Домодедово · 02.07.2026',
+    oldSitePrice: 4550,
   },
   {
     id: 'mono',
@@ -46,7 +46,7 @@ const TYPES: {
     title: 'Односкатные навесы',
     desc: 'Лаконичная форма с направленным уклоном. Самое практичное и экономичное решение.',
     photo: `${P}/27e01f6bf409d281211e01203e9a5a88_5258ae28-c334-4972-aeb4-931a28e240f1-270-270-c-100.jpg`,
-    photoCaption: 'Односкатный навес из профнастила · 19.06.2026',
+    oldSitePrice: 4150,
   },
   {
     id: 'gable',
@@ -55,7 +55,7 @@ const TYPES: {
     desc: 'Классическая крыша «домиком» в едином стиле с кровлей вашего дома.',
     badge: 'Популярно',
     photo: `${P}/a1c9826cff892c85e40d72133765a4c5_9788dc33-1459-4729-8e95-67ddfb52ddb7-270-270-c-100.jpg`,
-    photoCaption: 'Двухскатный навес к дому · Раменский р-н · 26.06.2026',
+    oldSitePrice: 4350,
   },
   {
     id: 'cant',
@@ -64,7 +64,7 @@ const TYPES: {
     desc: 'Опоры только с одной стороны — свободный заезд и открытие дверей без препятствий.',
     badge: 'Свободный заезд',
     photo: `${P}/64e8a0a87d69a25d10fabfadb94265ce_4754c9f0-f3af-4635-b203-04544abf4de6-270-270-c-100.jpg`,
-    photoCaption: 'Консольный навес · КП Княжье Озеро · 29.04.2026',
+    oldSitePrice: 5150,
   },
   {
     id: 'frieze',
@@ -73,7 +73,7 @@ const TYPES: {
     desc: 'Современный стиль High-Tech: декоративный фриз скрывает фермы и уклон кровли.',
     badge: 'High-Tech',
     photo: `${P}/da0a285b551846fb894568fdfd32c121_8fccc93b-7830-49da-a7c1-620d7104fcb0-270-270-c-100.jpg`,
-    photoCaption: 'Навес с фризом · КП Миллениум Парк · 13.06.2026',
+    oldSitePrice: 9500,
   },
 ];
 
@@ -125,8 +125,6 @@ export const CanopyTypesSection: React.FC<CanopyTypesSectionProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {TYPES.map((type) => {
             const models = STANDARD_CANOPIES.filter((c) => c.group === type.group);
-            const minPrice = models.length ? Math.min(...models.map((m) => m.price)) : 0;
-
             return (
               <div
                 key={type.id}
@@ -161,19 +159,12 @@ export const CanopyTypesSection: React.FC<CanopyTypesSectionProps> = ({
                   </div>
 
                   <div className="absolute bottom-3 left-4 right-4 text-white">
-                    <EditableText
-                      as="p"
-                      id={`home.canopytype.${type.id}.caption`}
-                      className="text-[10px] text-orange-200/90 font-semibold mb-0.5 block"
-                    >
-                      {type.photoCaption}
-                    </EditableText>
                     <span className="text-[10px] text-orange-300 font-bold uppercase tracking-wider block">
-                      Цена от:
+                      Цена со старого сайта:
                     </span>
                     <span className="text-2xl font-extrabold font-heading text-white">
                       <EditableText id={`home.canopytype.${type.id}.price`}>
-                        {`${minPrice.toLocaleString('ru-RU')} ₽`}
+                        {`${type.oldSitePrice.toLocaleString('ru-RU')} ₽/м²`}
                       </EditableText>
                     </span>
                   </div>

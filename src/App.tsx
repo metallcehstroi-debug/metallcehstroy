@@ -150,7 +150,7 @@ function AppInner() {
         onClose={() => setModalOpen(false)}
         initialTitle={modalTitle}
         onSuccess={(_info) => {
-          showToast('Заявка успешно принята! Дежурный инженер перезвонит в течение 10 минут.');
+          showToast('Заявка успешно принята! Менеджер перезвонит в течение 10 минут.');
         }}
       />
 

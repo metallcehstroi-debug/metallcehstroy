@@ -219,7 +219,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ onSuccessOrd
                   </EditableText>
                   <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
                     <EditableText as="span" id="consult.success.text" multiline>
-                      {`Спасибо, ${name || 'уважаемый заказчик'}! За вами закреплена скидка 2% онлайн. Дежурный инженер свяжется с вами по номеру ${phone} в течение 10 минут.`}
+                      {`Спасибо, ${name || 'уважаемый заказчик'}! За вами закреплена скидка 2% онлайн. Менеджер свяжется с вами по номеру ${phone} в течение 10 минут.`}
                     </EditableText>
                   </p>
 

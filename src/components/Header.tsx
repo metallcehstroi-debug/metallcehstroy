@@ -347,7 +347,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="flex items-center gap-2.5 px-3 py-2.5 text-xs font-semibold text-[#4A4BD8] hover:bg-[#F2F3FF] rounded-xl transition-colors"
                   >
                     <MaxIcon className="w-4 h-4" />
-                    <span>Написать в MAX инженеру</span>
+                    <span>Написать менеджеру в MAX</span>
                   </a>
                 </div>
               </div>
@@ -379,7 +379,7 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label="Написать в MAX"
               className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-[#EEF0FF] text-[#5A5CE8] border border-[#DDE0FF] hover:bg-[#E1E4FF] transition-colors"
             >
-              <MaxIcon className="w-5 h-5" />
+              <MaxIcon className="w-8 h-8" />
             </a>
             <a
               href={`tel:${phones[0].raw}`}
@@ -595,7 +595,7 @@ export const Header: React.FC<HeaderProps> = ({
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#5A5CE8] text-white text-xs font-bold"
                   >
-                    <MaxIcon className="w-3.5 h-3.5" />
+                    <MaxIcon className="w-5 h-5" />
                     Мессенджер MAX
                   </a>
                   <button
