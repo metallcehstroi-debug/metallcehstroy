@@ -132,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Micro guarantees strip */}
-            <div className="flex flex-wrap items-center gap-6 pt-3 text-xs text-slate-500 border-t border-slate-200">
+            <div className={`flex flex-wrap items-center gap-6 pt-3 text-xs text-slate-500 border-t border-slate-200 ${heroLayout === 'wide' ? 'lg:max-w-[76%]' : ''}`}>
               <div className="flex items-center gap-1.5 font-medium">
                 <Truck className="w-4 h-4 text-orange-600" />
                 <EditableText id="hero.micro1">Собственная доставка по всей России</EditableText>
@@ -271,7 +271,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
           ) : (
             /* Вариант 2: широкое фото с отзывом поверх */
-            <div className="lg:col-span-5 relative min-h-[470px] sm:min-h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[54%] lg:min-h-0">
+            <div className="lg:col-span-5 relative min-h-[470px] sm:min-h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[63%] lg:min-h-0">
               <div className="absolute inset-0 overflow-hidden rounded-3xl bg-slate-900 shadow-2xl group lg:rounded-none lg:shadow-none">
                 <EditableImage
                   id="hero.wide.image"
@@ -280,7 +280,11 @@ export const Hero: React.FC<HeroProps> = ({
                   className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="eager"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-slate-950/10 lg:bg-gradient-to-r lg:from-white lg:via-white/0 lg:to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-slate-950/10 lg:hidden" />
+                <div
+                  className="pointer-events-none absolute inset-0 hidden lg:block"
+                  style={{ backgroundImage: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.99) 10%, rgba(255,255,255,0.94) 22%, rgba(255,255,255,0.72) 38%, rgba(255,255,255,0.34) 53%, rgba(255,255,255,0.08) 67%, rgba(255,255,255,0) 78%)' }}
+                />
 
                 <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[12%] lg:top-10">
                   <span className="rounded-lg bg-orange-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
@@ -293,15 +297,32 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
               </div>
 
-              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[10%] lg:right-[7%] lg:bottom-[10%] lg:p-6">
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[28%] lg:right-[6%] lg:bottom-[9%] lg:p-6">
+                {editMode && (
+                  <label className="mb-4 flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] font-bold text-slate-600">
+                    <Star className="h-3.5 w-3.5 shrink-0 text-amber-600" />
+                    <span className="shrink-0">Отзыв:</span>
+                    <select
+                      value={reviewId}
+                      onChange={(e) => setReviewId(e.target.value)}
+                      className="min-w-0 flex-1 cursor-pointer rounded-lg border border-slate-300 bg-white px-2 py-1 text-[11px] text-slate-800 outline-none focus:border-orange-500"
+                    >
+                      {REAL_REVIEWS.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.author} — {item.project || item.date}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white shadow-md sm:h-14 sm:w-14 sm:text-base">
-                    <EditableText id="hero.wide.review.initials">ИА</EditableText>
+                    <EditableText id={`hero.wide.review.${review.id}.initials`}>{review.author.charAt(0)}</EditableText>
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                      <EditableText as="h3" id="hero.wide.review.author" className="block text-xs font-extrabold text-slate-900 sm:text-sm">
-                        Ирина · отзыв об объекте 8 × 10 м
+                      <EditableText as="h3" id={`hero.wide.review.${review.id}.author`} className="block text-xs font-extrabold text-slate-900 sm:text-sm">
+                        {review.author + (review.project ? ` · ${review.project}` : '')}
                       </EditableText>
                       <div className="flex shrink-0 text-amber-500">
                         {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
@@ -309,11 +330,11 @@ export const Hero: React.FC<HeroProps> = ({
                     </div>
                     <EditableText
                       as="p"
-                      id="hero.wide.review.text"
+                      id={`hero.wide.review.${review.id}.text`}
                       multiline
                       className="mt-2 block text-[11px] italic leading-relaxed text-slate-600 sm:text-sm"
                     >
-                      «Валерий подготовил чёткий проект, цена совпала с итоговой копейка в копейку! Бригада установила навес идеально ровно и быстро!»
+                      {`«${review.text}»`}
                     </EditableText>
                   </div>
                 </div>
