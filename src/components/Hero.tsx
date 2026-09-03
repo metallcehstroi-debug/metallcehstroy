@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({
   const heroLayout = getText('hero.layout', 'card');
 
   return (
-    <section className={`relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-slate-50 via-white to-slate-50 ${heroLayout === 'wide' ? 'pt-8 pb-10 lg:min-h-[690px] lg:pt-12 lg:pb-12' : 'pt-8 pb-16 lg:pt-14 lg:pb-20'}`}>
+    <section className={`relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 ${heroLayout === 'wide' ? 'pt-8 pb-10 lg:min-h-[690px] lg:pt-12 lg:pb-12' : 'border-b border-slate-200 pt-8 pb-16 lg:pt-14 lg:pb-20'}`}>
       
       {/* Background soft ambient orbs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -132,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* Micro guarantees strip */}
-            <div className={`flex flex-wrap items-center gap-6 pt-3 text-xs text-slate-500 border-t border-slate-200 ${heroLayout === 'wide' ? 'lg:max-w-[76%]' : ''}`}>
+            <div className={`flex flex-wrap items-center gap-6 pt-3 text-xs text-slate-500 ${heroLayout === 'wide' ? 'lg:max-w-[76%]' : 'border-t border-slate-200'}`}>
               <div className="flex items-center gap-1.5 font-medium">
                 <Truck className="w-4 h-4 text-orange-600" />
                 <EditableText id="hero.micro1">Собственная доставка по всей России</EditableText>
