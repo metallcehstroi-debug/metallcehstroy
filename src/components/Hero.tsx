@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({
   const heroLayout = getText('hero.layout', 'card');
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-20 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-b border-slate-200">
+    <section className={`relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-slate-50 via-white to-slate-50 ${heroLayout === 'wide' ? 'pt-8 pb-10 lg:min-h-[690px] lg:pt-12 lg:pb-12' : 'pt-8 pb-16 lg:pt-14 lg:pb-20'}`}>
       
       {/* Background soft ambient orbs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -60,10 +60,10 @@ export const Hero: React.FC<HeroProps> = ({
             </button>
           </div>
         )}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center ${heroLayout === 'wide' ? 'lg:min-h-[590px]' : ''}`}>
           
           {/* Left Column: Headline and Selling points */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className={`lg:col-span-7 space-y-6 ${heroLayout === 'wide' ? 'relative z-20 lg:pr-10' : ''}`}>
             
             {/* Top Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-xs font-bold text-orange-700 shadow-xs">
@@ -271,8 +271,8 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
           ) : (
             /* Вариант 2: широкое фото с отзывом поверх */
-            <div className="lg:col-span-5 relative lg:self-stretch min-h-[430px] sm:min-h-[520px] lg:min-h-[640px]">
-              <div className="absolute inset-0 overflow-hidden rounded-3xl lg:rounded-l-[2.5rem] lg:rounded-r-none bg-slate-900 shadow-2xl group">
+            <div className="lg:col-span-5 relative min-h-[470px] sm:min-h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[54%] lg:min-h-0">
+              <div className="absolute inset-0 overflow-hidden rounded-3xl bg-slate-900 shadow-2xl group lg:rounded-none lg:shadow-none">
                 <EditableImage
                   id="hero.wide.image"
                   src="https://xn--80ajbqiadvrjgf1bm.xn--p1ai/wp-content/uploads/freshizer/2296076d27b2cfba8a1c9d4fb5d32c68_f51777c2-0a13-48c9-9154-8f82a0a7071d-780-780-c-100.jpg"
@@ -280,9 +280,9 @@ export const Hero: React.FC<HeroProps> = ({
                   className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="eager"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/10 lg:bg-gradient-to-r lg:from-white/35 lg:via-transparent lg:to-slate-950/10" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-slate-950/10 lg:bg-gradient-to-r lg:from-white lg:via-white/0 lg:to-transparent" />
 
-                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6">
+                <div className="absolute left-4 right-4 top-4 flex flex-wrap gap-2 sm:left-6 sm:right-6 sm:top-6 lg:left-[12%] lg:top-10">
                   <span className="rounded-lg bg-orange-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
                     <Sparkles className="mr-1 inline h-3.5 w-3.5" />
                     <EditableText id="hero.wide.badge">Реальный сданный объект</EditableText>
@@ -293,7 +293,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
               </div>
 
-              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[-2rem] lg:right-6">
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/95 p-4 shadow-2xl backdrop-blur-md sm:inset-x-6 sm:bottom-6 sm:p-5 lg:left-[10%] lg:right-[7%] lg:bottom-[10%] lg:p-6">
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white shadow-md sm:h-14 sm:w-14 sm:text-base">
                     <EditableText id="hero.wide.review.initials">ИА</EditableText>
@@ -333,7 +333,7 @@ export const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* Live Counters Banner in Clean White Card Style */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white border border-slate-200 p-5 sm:p-7 rounded-3xl shadow-sm">
+        <div className={`${heroLayout === 'wide' ? 'hidden' : 'grid'} mt-12 sm:mt-16 grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white border border-slate-200 p-5 sm:p-7 rounded-3xl shadow-sm`}>
           
           <div className="text-center sm:text-left border-r border-slate-200 last:border-r-0 pr-2">
             <div className="text-2xl sm:text-4xl font-extrabold text-slate-900 font-heading">
