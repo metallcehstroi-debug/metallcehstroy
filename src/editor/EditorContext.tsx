@@ -112,6 +112,19 @@ function loadOverrides(): Record<string, string> {
   // Если основное хранилище повреждено — восстанавливаемся из резервной копии
   if (!local) local = safeParse(localStorage.getItem(BACKUP_KEY));
 
+  // В одной из ранних сборок логотип сохранился как обрезанный data URL.
+  // Такой файл не декодируется и перекрывает исправный логотип из сборки.
+  // Удаляем только заведомо повреждённое локальное значение, сохраняя
+  // остальные пользовательские правки редактора.
+  if (
+    typeof local?.['brand.logo'] === 'string' &&
+    local['brand.logo'].startsWith('data:image/') &&
+    local['brand.logo'].length < 4096
+  ) {
+    local = { ...local };
+    delete local['brand.logo'];
+  }
+
   if (local) merged = { ...merged, ...local };
   return merged;
 }
