@@ -11,6 +11,10 @@ export interface CustomPortfolioItem {
   categoryLabel: string;
   date: string;
   image: string;
+  /** Готовый результат: первое фото используется как обложка */
+  resultImages?: string[];
+  /** Этапы изготовления и монтажа */
+  processImages?: string[];
   material: string;
   location?: string;
   duration?: string;

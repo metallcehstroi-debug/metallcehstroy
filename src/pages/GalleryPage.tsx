@@ -15,6 +15,8 @@ import { EditableImage, EditableText } from '../editor/Editable';
 import { useEditor } from '../editor/EditorContext';
 import { useCustomItems, addCustomItem, deleteCustomItem } from '../editor/customItems';
 import { PhotoAlbum, AlbumBadge } from '../components/PhotoAlbum';
+import { optimizeImageFile } from '../editor/imageCompress';
+import type { CustomPortfolioItem } from '../editor/customItems';
 
 interface GalleryPageProps {
   onOpenOrder: (title?: string) => void;
@@ -33,36 +35,58 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenOrder }) => {
   const [newLocation, setNewLocation] = useState('');
   const [newDate, setNewDate] = useState(new Date().toLocaleDateString('ru-RU'));
   const [newDesc, setNewDesc] = useState('');
-  const [newImage, setNewImage] = useState('');
+  const [resultImages, setResultImages] = useState<string[]>([]);
+  const [processImages, setProcessImages] = useState<string[]>([]);
+  const [photosBusy, setPhotosBusy] = useState(false);
 
+  type GalleryItem = PortfolioItem & Partial<Pick<CustomPortfolioItem, 'resultImages' | 'processImages'>>;
   const allItems = useMemo(
-    () => [...REAL_PORTFOLIO, ...customItems] as PortfolioItem[],
+    () => [...REAL_PORTFOLIO, ...customItems] as GalleryItem[],
     [customItems]
   );
 
-  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 3 * 1024 * 1024) {
-      alert('Файл слишком большой. Максимум 3 МБ.');
+  const handleImageFiles = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    kind: 'result' | 'process'
+  ) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    if (!files.length) return;
+    if (files.some((file) => file.size > 20 * 1024 * 1024)) {
+      alert('Один из исходных файлов больше 20 МБ.');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => setNewImage(String(reader.result));
-    reader.readAsDataURL(file);
+    setPhotosBusy(true);
+    try {
+      const optimized = await Promise.all(
+        files.slice(0, 8).map((file) => optimizeImageFile(file, 1200, 0.8))
+      );
+      if (kind === 'result') setResultImages((current) => [...current, ...optimized].slice(0, 8));
+      else setProcessImages((current) => [...current, ...optimized].slice(0, 8));
+      notify(`${optimized.length} фото оптимизировано и добавлено`);
+    } catch {
+      notify('Не удалось обработать одно из фото');
+    } finally {
+      setPhotosBusy(false);
+    }
   };
 
   const submitNewItem = () => {
-    if (!newTitle.trim() || !newImage) {
-      alert('Укажите название и загрузите фото объекта.');
+    if (!newTitle.trim() || !resultImages.length) {
+      alert('Укажите название и загрузите хотя бы одно фото результата.');
       return;
     }
+    const categoryMap: Record<string, CustomPortfolioItem['category']> = {
+      Заборы: 'fence', Ворота: 'gate', Ангары: 'hangar', Беседки: 'gazebo',
+    };
     addCustomItem({
       title: newTitle.trim(),
-      category: 'canopy',
+      category: categoryMap[newCategory] ?? 'canopy',
       categoryLabel: newCategory,
       date: newDate,
-      image: newImage,
+      image: resultImages[0],
+      resultImages,
+      processImages,
       material: newMaterial.trim() || 'Металлокаркас, поликарбонат',
       location: newLocation.trim() || undefined,
       duration: '1–2 дня',
@@ -73,10 +97,11 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenOrder }) => {
     setNewMaterial('');
     setNewLocation('');
     setNewDesc('');
-    setNewImage('');
+    setResultImages([]);
+    setProcessImages([]);
     notify('Объект добавлен в галерею');
   };
-  const [lightboxItem, setLightboxItem] = useState<PortfolioItem | null>(null);
+  const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
 
   const categories = [
     { id: 'all', label: `Все объекты (${REAL_PORTFOLIO.length})` },
@@ -181,7 +206,10 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenOrder }) => {
                   <span className="p-1.5 rounded-lg bg-black/40 text-white group-hover:bg-orange-600 transition-colors">
                     <Maximize2 className="w-4 h-4" />
                   </span>
-                  <AlbumBadge portId={item.id} />
+                  <AlbumBadge
+                    portId={item.id}
+                    album={item.resultImages ? { result: item.resultImages, process: item.processImages ?? [] } : undefined}
+                  />
                 </div>
 
                 <div className="absolute bottom-3 left-4 right-4 text-white">
@@ -254,6 +282,10 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenOrder }) => {
           portId={lightboxItem.id}
           title={`${lightboxItem.title} · ${lightboxItem.date}`}
           mainImage={lightboxItem.image}
+          album={lightboxItem.resultImages ? {
+            result: lightboxItem.resultImages,
+            process: lightboxItem.processImages ?? [],
+          } : undefined}
           onClose={() => setLightboxItem(null)}
           onOrder={(t) => onOpenOrder(t)}
         />
@@ -278,28 +310,52 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenOrder }) => {
               </button>
             </div>
 
-            {/* Загрузка фото */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Фото объекта *</label>
-              {newImage ? (
-                <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-video">
-                  <img src={newImage} alt="Предпросмотр" className="w-full h-full object-cover" />
-                  <button
-                    onClick={() => setNewImage('')}
-                    className="absolute top-2 right-2 bg-black/60 hover:bg-black text-white rounded-lg p-1.5"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+            {/* Загрузка фотографий результата и процесса */}
+            {([
+              ['result', 'Готовый результат *', resultImages, setResultImages],
+              ['process', 'Процесс установки', processImages, setProcessImages],
+            ] as const).map(([kind, label, images, setter]) => (
+              <div key={kind}>
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <label className="block text-xs font-bold text-slate-700">{label}</label>
+                  <span className="text-[10px] text-slate-400">{images.length}/8 фото</span>
                 </div>
-              ) : (
-                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-slate-300 hover:border-orange-500 rounded-xl py-8 cursor-pointer transition-colors">
-                  <Upload className="w-7 h-7 text-slate-400" />
-                  <span className="text-xs text-slate-500">Нажмите, чтобы загрузить фото</span>
-                  <input type="file" accept="image/*" onChange={handleImageFile} className="hidden" />
+                {images.length > 0 && (
+                  <div className="grid grid-cols-4 gap-2 mb-2">
+                    {images.map((src, index) => (
+                      <div key={`${kind}-${index}`} className="relative aspect-square rounded-lg overflow-hidden bg-slate-100">
+                        <img src={src} alt="" className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => setter(images.filter((_, i) => i !== index))}
+                          className="absolute top-1 right-1 w-6 h-6 bg-black/65 text-white rounded-full flex items-center justify-center"
+                          aria-label="Удалить фото"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <label className={`flex items-center justify-center gap-2 border-2 border-dashed rounded-xl py-4 transition-colors ${photosBusy ? 'border-slate-200 bg-slate-50 cursor-wait' : 'border-slate-300 hover:border-orange-500 cursor-pointer'}`}>
+                  <Upload className="w-5 h-5 text-slate-400" />
+                  <span className="text-xs text-slate-500">
+                    {photosBusy ? 'Оптимизируем фото…' : images.length ? 'Добавить ещё фото' : 'Выбрать несколько фото'}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    disabled={photosBusy || images.length >= 8}
+                    onChange={(e) => handleImageFiles(e, kind)}
+                    className="hidden"
+                  />
                 </label>
-              )}
-              <p className="text-[11px] text-slate-400 mt-1">JPG, PNG, WebP · до 3 МБ</p>
-            </div>
+              </div>
+            ))}
+            <p className="text-[11px] text-slate-400 -mt-2">
+              До 8 фото в каждом блоке. Большие файлы автоматически уменьшаются без заметной потери качества.
+            </p>
 
             {/* Название */}
             <div>

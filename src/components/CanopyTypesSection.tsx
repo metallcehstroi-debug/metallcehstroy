@@ -160,7 +160,7 @@ export const CanopyTypesSection: React.FC<CanopyTypesSectionProps> = ({
 
                   <div className="absolute bottom-3 left-4 right-4 text-white">
                     <span className="text-[10px] text-orange-300 font-bold uppercase tracking-wider block">
-                      Цена со старого сайта:
+                      Цена:
                     </span>
                     <span className="text-2xl font-extrabold font-heading text-white">
                       <EditableText id={`home.canopytype.${type.id}.price`}>

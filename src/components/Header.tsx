@@ -28,7 +28,6 @@ import { MaxIcon } from './MaxIcon';
 import { useCompanyInfo, useEditablePhones } from '../editor/useCompanyInfo';
 import { useEditor } from '../editor/EditorContext';
 import { EditableText } from '../editor/Editable';
-import { requestFilter } from '../editor/navFilter';
 
 export type PageId =
   | 'home'
@@ -46,7 +45,7 @@ export type PageId =
 
 interface HeaderProps {
   currentPage: PageId;
-  onNavigate: (page: PageId) => void;
+  onNavigate: (page: PageId, filter?: string) => void;
   onOpenOrder: (title?: string) => void;
 }
 
@@ -159,8 +158,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, [mobileMenuOpen]);
 
   const handleNavClick = (page: PageId, filter?: string) => {
-    if (filter) requestFilter(page, filter);
-    onNavigate(page);
+    onNavigate(page, filter);
     setOpenMenu(null);
     setMobileMenuOpen(false);
     setPhonesHover(false);

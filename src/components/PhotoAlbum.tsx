@@ -16,6 +16,8 @@ interface PhotoAlbumProps {
   title: string;
   /** Главное фото объекта из карточки (показывается первым если нет альбома) */
   mainImage: string;
+  /** Альбом, созданный пользователем в редакторе */
+  album?: ProjectPhotos;
   /** Закрыть лайтбокс */
   onClose: () => void;
   /** Заказать такой же */
@@ -27,10 +29,11 @@ export const PhotoAlbum: React.FC<PhotoAlbumProps> = ({
   portId,
   title,
   mainImage,
+  album: suppliedAlbum,
   onClose,
   onOrder,
 }) => {
-  const album: ProjectPhotos = PROCESS_PHOTOS[portId] ?? {
+  const album: ProjectPhotos = suppliedAlbum ?? PROCESS_PHOTOS[portId] ?? {
     result: [mainImage],
     process: [],
   };
@@ -217,9 +220,9 @@ export const PhotoAlbum: React.FC<PhotoAlbumProps> = ({
 };
 
 /** Бейдж «N фото» на карточке, показывающий что есть фотоальбом */
-export const AlbumBadge: React.FC<{ portId: string }> = ({ portId }) => {
-  if (!hasAlbum(portId)) return null;
-  const album = PROCESS_PHOTOS[portId];
+export const AlbumBadge: React.FC<{ portId: string; album?: ProjectPhotos }> = ({ portId, album: suppliedAlbum }) => {
+  if (!suppliedAlbum && !hasAlbum(portId)) return null;
+  const album = suppliedAlbum ?? PROCESS_PHOTOS[portId];
   const total = album.result.length + album.process.length;
   return (
     <span className="inline-flex items-center gap-1 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs border border-white/10">

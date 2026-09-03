@@ -48,7 +48,7 @@ export const FloatingActions: React.FC<FloatingActionsProps> = ({ onOpenOrder, o
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Написать в MAX"
-        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-visible bg-white text-white shadow-xl shadow-[#5A5CE8]/35 ring-2 ring-white transition-all hover:scale-110 active:scale-95 cursor-pointer"
+        className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-visible bg-transparent text-white shadow-xl shadow-[#5A5CE8]/35 transition-all hover:scale-110 active:scale-95 cursor-pointer"
       >
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7B7CF0] opacity-30" />
         <MaxIcon className="relative w-full h-full" />

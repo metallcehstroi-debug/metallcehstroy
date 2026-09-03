@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header, PageId } from './components/Header';
 import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
@@ -18,9 +18,11 @@ import { Calculator } from './components/Calculator';
 import { ProductItem } from './data/siteData';
 import { EditorProvider, useEditor } from './editor/EditorContext';
 import { EditorLauncher } from './editor/EditorToolbar';
+import { pathForRoute, routeFromPath } from './routes';
+import { requestFilter } from './editor/navFilter';
 
 function AppInner() {
-  const [currentPage, setCurrentPage] = useState<PageId>('home');
+  const [currentPage, setCurrentPage] = useState<PageId>(() => routeFromPath().page);
   const { editMode } = useEditor();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Заявка на выезд замерщика (3 000 ₽ — вычитается из стоимости заказа)');
@@ -37,10 +39,28 @@ function AppInner() {
     setModalOpen(true);
   };
 
-  const handleNavigate = (page: PageId) => {
+  const handleNavigate = (page: PageId, filter?: string, replace = false) => {
+    if (filter) requestFilter(page, filter);
     setCurrentPage(page);
+    const path = pathForRoute(page, filter);
+    if (window.location.pathname !== encodeURI(path) && window.location.pathname !== path) {
+      window.history[replace ? 'replaceState' : 'pushState']({ page, filter }, '', path);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    const initial = routeFromPath();
+    if (initial.filter) requestFilter(initial.page, initial.filter);
+    const onPopState = () => {
+      const route = routeFromPath();
+      if (route.filter) requestFilter(route.page, route.filter);
+      setCurrentPage(route.page);
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const showToast = (message: string) => {
     setToastMessage(message);

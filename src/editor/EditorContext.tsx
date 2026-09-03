@@ -33,10 +33,16 @@ async function buildBakeSnippet(overrides: Record<string, string>): Promise<stri
   const custom = loadCustomItems();
   const compressedCustom = await Promise.all(
     custom.map(async (item) => {
-      if (item && typeof item.image === 'string' && isHugeDataUrl(item.image)) {
-        return { ...item, image: await compressDataUrl(item.image) };
-      }
-      return item;
+      const compress = async (value: string) =>
+        isHugeDataUrl(value) ? await compressDataUrl(value) : value;
+      const resultImages = await Promise.all((item.resultImages ?? []).map(compress));
+      const processImages = await Promise.all((item.processImages ?? []).map(compress));
+      return {
+        ...item,
+        image: await compress(item.image),
+        ...(resultImages.length ? { resultImages } : {}),
+        ...(processImages.length ? { processImages } : {}),
+      };
     })
   );
   const items = JSON.stringify(compressedCustom, null, 2)
