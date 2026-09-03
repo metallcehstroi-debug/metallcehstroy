@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenOrder }) => {
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 ring-2 ring-orange-500/30 shadow-md bg-white">
-                <img src={logoUrl || '/logo.svg'} alt="Логотип" className="w-full h-full object-cover" />
+                <img src={logoUrl || '/logo.webp'} alt="Логотип" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-extrabold text-white font-heading uppercase tracking-tight">
                 <EditableText id="brand.name">МеталлЦехСтрой</EditableText>

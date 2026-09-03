@@ -650,7 +650,7 @@ function EditableLogo({
         {src ? (
           <img src={src} alt="Логотип" className="w-full h-full object-cover" />
         ) : (
-          <img src="/logo.svg" alt="Логотип МеталлЦехСтрой" className="w-full h-full object-contain" />
+          <img src="/logo.webp" alt="Логотип МеталлЦехСтрой" className="w-full h-full object-contain" />
         )}
         <div className="absolute inset-0 bg-black/0 group-hover/edit:bg-black/50 transition-colors flex items-center justify-center rounded-full">
           <span className="opacity-0 group-hover/edit:opacity-100 text-white text-[10px] font-bold bg-black/60 px-2 py-1 rounded-lg transition-opacity whitespace-nowrap">
@@ -663,6 +663,6 @@ function EditableLogo({
   }
 
   return (
-    <img src={src || '/logo.svg'} alt="Логотип МеталлЦехСтрой" className="w-full h-full object-cover" />
+    <img src={src || '/logo.webp'} alt="Логотип МеталлЦехСтрой" className="w-full h-full object-cover" />
   );
 }
